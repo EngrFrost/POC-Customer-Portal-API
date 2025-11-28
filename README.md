@@ -47,7 +47,6 @@ NODE_ENV=development
 JWT_SECRET=your-super-secret-jwt-key-minimum-32-characters
 JWT_EXPIRES_IN=7d
 
-SERVICEM8_EMAIL=your-servicem8-email@example.com
 SERVICEM8_API_TOKEN=your-servicem8-api-token
 
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/servicem8-portal?retryWrites=true&w=majority
@@ -69,17 +68,6 @@ FRONTEND_URL=http://localhost:3000
 3. Create a database user
 4. Whitelist your IP address (or use `0.0.0.0/0` for development)
 5. Get your connection string and add it to `.env`
-
-### 5. Seed the Database
-
-```bash
-npm run seed
-```
-
-This creates test customers you can use to login:
-- Email: `john@example.com` / Phone: `+1234567890`
-- Email: `jane@example.com` / Phone: `+0987654321`
-- Email: `bob@example.com` / Phone: `+1122334455`
 
 ### 6. Start the Server
 
@@ -119,18 +107,6 @@ Response: { bookings: array }
 GET /api/bookings/:id
 Headers: Authorization: Bearer <token>
 Response: { booking: object, attachments: array }
-```
-
-### Messages
-```
-GET /api/messages/:jobId
-Headers: Authorization: Bearer <token>
-Response: { messages: array }
-
-POST /api/messages/:jobId
-Headers: Authorization: Bearer <token>
-Body: { message: string }
-Response: { message: object }
 ```
 
 ## Project Structure
@@ -268,11 +244,6 @@ Models (Mongoose schemas)
 - Structured logging with Winston
 - Different error responses for dev vs production
 
-### 6. Messaging
-- Messages stored in MongoDB
-- Job ownership validation before sending
-- Customer and system message types
-
 ## Development
 
 ### Build for Production
@@ -285,18 +256,11 @@ npm run build
 npm start
 ```
 
-## Testing
-
-You can test the API using tools like:
-- **Thunder Client** (VS Code extension)
-- **Postman**
-- **curl**
-
 ### Example: Login
 ```bash
 curl -X POST http://localhost:4000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email": "john@example.com", "phone": "+1234567890"}'
+  -d '{"email": "john@example.com", "password": "password"}'
 ```
 
 ### Example: Get Bookings
@@ -304,24 +268,4 @@ curl -X POST http://localhost:4000/api/auth/login \
 curl -X GET http://localhost:4000/api/bookings \
   -H "Authorization: Bearer YOUR_TOKEN_HERE"
 ```
-
-## Troubleshooting
-
-### MongoDB Connection Failed
-- Check your `MONGODB_URI` in `.env`
-- Ensure your IP is whitelisted in MongoDB Atlas
-- Verify database user credentials
-
-### ServiceM8 API Returns 401
-- Check your `SERVICEM8_EMAIL` and `SERVICEM8_API_TOKEN`
-- Ensure the API key is active in ServiceM8
-
-### No Jobs Returned
-- Ensure you have jobs in your ServiceM8 account
-- Check that job contact email/phone matches your test customers
-- Look at server logs for matching details
-
-## License
-
-MIT
 
